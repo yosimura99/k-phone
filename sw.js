@@ -1,5 +1,5 @@
 /* K.Phone service worker – chỉ cache vỏ ứng dụng (offline shell). Không cache trang ProxyDancu. */
-var CACHE = 'kphone-shell-v2';
+var CACHE = 'kphone-shell-v3';
 var SHELL = [
   './',
   './index.html',

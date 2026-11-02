@@ -7,7 +7,7 @@
   // Link truy cập từ xa (có mật khẩu – người dùng tự nhập trên trang, KHÔNG lưu trong mã).
   var DEFAULT_URL = 'https://app.proxydancu.com/api/v1/cloud-phone/s/pDx_dO7Z';
   var LS_URL = 'kphone.url';
-  var LS_MODE = 'kphone.mode';          // auto | iframe | direct
+  var LS_MODE = 'kphone.mode_v2';          // auto | iframe | direct
   var LS_AUTOOPEN = 'kphone.autoopen';  // '1' | '0'
   var LOAD_TIMEOUT_MS = 12000;
   var HOLD_MS = 1000;
@@ -48,7 +48,7 @@
   })();
 
   function getUrl() { var u = lsGet(LS_URL, DEFAULT_URL); if (u && u.indexOf('FlsIb3YJ') !== -1) { lsDel(LS_URL); u = DEFAULT_URL; } return isValidUrl(u) ? u : DEFAULT_URL; }
-  function getMode() { return lsGet(LS_MODE, 'auto'); }
+  function getMode() { return lsGet(LS_MODE, 'direct'); }
   function getAutoOpen() { return lsGet(LS_AUTOOPEN, '0') === '1'; }
   function hostOf(u) { try { return new URL(u).hostname; } catch (e) { return ''; } }
   function isKnownBlocked(u) {
