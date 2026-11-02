@@ -8,7 +8,7 @@ Live: https://yosimura99.github.io/k-phone/
 Mở link trên bằng Safari → Chia sẻ → **Thêm vào MH chính**.
 
 ## Cấu hình
-- URL trình xem mặc định: link truy cập từ xa `https://app.proxydancu.com/api/v1/cloud-phone/s/pDx_dO7Z` (có mật khẩu — nhập trên trang ProxyDancu, không lưu trong K.Phone). Trang danh sách máy `https://app.proxydancu.com/user/cloud-phone` vẫn dùng được qua Cài đặt.
+- URL trình xem mặc định: link truy cập từ xa `https://app.proxydancu.com/api/v1/cloud-phone/s/HlNjQH1r` (có mật khẩu — nhập trên trang ProxyDancu, không lưu trong K.Phone). Trang danh sách máy `https://app.proxydancu.com/user/cloud-phone` vẫn dùng được qua Cài đặt.
 - Đổi bằng nút ⚙️ **Cài đặt** (lưu trong `localStorage`) hoặc mở `https://yosimura99.github.io/k-phone/?url=<URL>` (cũng được lưu lại). `?mode=auto|iframe|direct` cũng được hỗ trợ.
 - Không lưu mật khẩu / thông tin đăng nhập trong mã nguồn hay localStorage.
 
