@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>K.Phone</title>
+  <meta name="description" content="Điện thoại Android đám mây của Khang">
+  <meta name="theme-color" content="#0b0d12">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="K.Phone">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="shell">
+    <!-- Vùng hiển thị máy Android (chừa safe-area + 12px ở trên/dưới) -->
+    <main id="stage">
+      <iframe id="phone" title="Máy Android đám mây"
+        allow="autoplay; clipboard-read; clipboard-write; fullscreen; microphone; camera"
+        allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+      <div id="loading" class="overlay" hidden>
+        <div class="spinner"></div>
+        <p>Đang kết nối máy…</p>
+      </div>
+
+      <!-- Fallback khi trang không cho nhúng iframe (X-Frame-Options / CSP frame-ancestors) -->
+      <div id="fallback" class="overlay" hidden>
+        <div class="logo">K</div>
+        <h1>K.Phone</h1>
+        <p id="fallback-msg">Trang máy không cho phép hiển thị bên trong ứng dụng.</p>
+        <button id="open-direct" class="big-btn" type="button">Mở máy</button>
+        <button id="retry-embed" class="link-btn" type="button">Thử nhúng lại</button>
+      </div>
+    </main>
+
+    <!-- Thanh điều khiển dưới -->
+    <nav id="bar" aria-label="Điều khiển">
+      <button class="key" data-key="back" type="button" aria-label="Quay lại" title="Quay lại">
+        <svg viewBox="0 0 24 24"><path d="M16 4 7 12l9 8z"/></svg><span>Quay lại</span>
+      </button>
+      <button class="key" data-key="home" type="button" aria-label="Màn hình chính" title="Màn hình chính">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="7" fill="none" stroke-width="2.4"/></svg><span>Home</span>
+      </button>
+      <button class="key" data-key="recents" type="button" aria-label="Ứng dụng gần đây" title="Ứng dụng gần đây">
+        <svg viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2" fill="none" stroke-width="2.4"/></svg><span>Gần đây</span>
+      </button>
+      <span class="sep"></span>
+      <button id="btn-reload" class="key" type="button" aria-label="Tải lại" title="Tải lại">
+        <svg viewBox="0 0 24 24"><path d="M19 12a7 7 0 1 1-2.05-4.95" fill="none" stroke-width="2.2" stroke-linecap="round"/><path d="M20 4v5h-5z"/></svg><span>Tải lại</span>
+      </button>
+      <button id="btn-settings" class="key" type="button" aria-label="Cài đặt" title="Cài đặt">
+        <svg viewBox="0 0 24 24"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7zm8.6 4.9-.1-2.8 2-1.6-2-3.4-2.4.9a8 8 0 0 0-2.4-1.4L15.3 2.5h-4l-.4 2.6a8 8 0 0 0-2.4 1.4L6.1 5.6l-2 3.4 2 1.6a8 8 0 0 0 0 2.8l-2 1.6 2 3.4 2.4-.9a8 8 0 0 0 2.4 1.4l.4 2.6h4l.4-2.6a8 8 0 0 0 2.4-1.4l2.4.9 2-3.4z" fill-rule="evenodd"/></svg><span>Cài đặt</span>
+      </button>
+      <button id="btn-exit" class="key exit" type="button" aria-label="Thoát (giữ 1 giây)" title="Giữ 1 giây để thoát">
+        <svg class="ring" viewBox="0 0 36 36"><circle class="track" cx="18" cy="18" r="15.5"/><circle class="prog" cx="18" cy="18" r="15.5"/></svg>
+        <svg viewBox="0 0 24 24"><path d="M12 3v8" fill="none" stroke-width="2.4" stroke-linecap="round"/><path d="M7.5 6.5a7 7 0 1 0 9 0" fill="none" stroke-width="2.4" stroke-linecap="round"/></svg><span>Thoát</span>
+      </button>
+    </nav>
+
+    <div id="toast" role="status" aria-live="polite" hidden></div>
+
+    <!-- Màn hình cài đặt -->
+    <section id="settings" class="sheet" hidden aria-label="Cài đặt">
+      <div class="sheet-inner scrollable">
+        <h2>Cài đặt K.Phone</h2>
+        <label for="set-url">Địa chỉ trình xem máy (URL)</label>
+        <input id="set-url" type="url" inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <p class="hint">Mặc định: <code id="default-url"></code>. Cũng có thể mở <code>?url=…</code></p>
+
+        <label for="set-mode">Cách hiển thị</label>
+        <select id="set-mode">
+          <option value="auto">Tự động (nhúng, nếu bị chặn thì hiện nút “Mở máy”)</option>
+          <option value="iframe">Luôn nhúng trong K.Phone</option>
+          <option value="direct">Mở trực tiếp (không nhúng)</option>
+        </select>
+
+        <label class="check"><input id="set-autoopen" type="checkbox"> Tự mở máy khi không nhúng được</label>
+
+        <div class="row">
+          <button id="set-save" class="big-btn" type="button">Lưu</button>
+          <button id="set-cancel" class="ghost-btn" type="button">Đóng</button>
+        </div>
+        <button id="set-reset" class="link-btn" type="button">Khôi phục mặc định</button>
+        <p class="hint small">K.Phone không lưu mật khẩu. Đăng nhập trực tiếp trên trang ProxyDancu.</p>
+      </div>
+    </section>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>K.Phone – Đã thoát</title>
+  <meta name="theme-color" content="#0b0d12">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="exit-page">
+  <div id="shell">
+    <div class="overlay exit-screen">
+      <div class="logo">K</div>
+      <h1>Đã thoát.</h1>
+      <p>Vuốt lên để về màn hình chính</p>
+      <a class="link-btn" href="./">Mở lại K.Phone</a>
+    </div>
+    <div class="swipe-hint" aria-hidden="true"></div>
+  </div>
+  <script>
+    document.addEventListener('touchmove', function (e) { e.preventDefault(); }, { passive: false });
+    document.addEventListener('gesturestart', function (e) { e.preventDefault(); });
+  </script>
+</body>
+</html>
