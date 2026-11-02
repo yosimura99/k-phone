@@ -4,8 +4,8 @@
 (function () {
   'use strict';
 
-  // Link truy cập từ xa (có mật khẩu – người dùng tự nhập trên trang, KHÔNG lưu trong mã).
-  var DEFAULT_URL = 'https://app.proxydancu.com/api/v1/cloud-phone/s/HlNjQH1r';
+  // Trang quản lý máy PD10599_0002 (đăng nhập ProxyDancu, bấm vào hình máy để điều khiển). Link chia sẻ bị đen nên không dùng.
+  var DEFAULT_URL = 'https://app.proxydancu.com/user/cloud-phone/detail/6ae82ec17242518a576d16ef';
   var LS_URL = 'kphone.url';
   var LS_MODE = 'kphone.mode_v2';          // auto | iframe | direct
   var LS_AUTOOPEN = 'kphone.autoopen';  // '1' | '0'
@@ -47,7 +47,7 @@
     } catch (e) {}
   })();
 
-  function getUrl() { var u = lsGet(LS_URL, DEFAULT_URL); if (u && u.indexOf('HlNjQH1r') === -1 && u.indexOf('/cloud-phone/s/') !== -1) { lsDel(LS_URL); u = DEFAULT_URL; } return isValidUrl(u) ? u : DEFAULT_URL; }
+  function getUrl() { var u = lsGet(LS_URL, DEFAULT_URL); if (u && u.indexOf('/cloud-phone/s/') !== -1) { lsDel(LS_URL); u = DEFAULT_URL; } return isValidUrl(u) ? u : DEFAULT_URL; }
   function getMode() { return lsGet(LS_MODE, 'direct'); }
   function getAutoOpen() { return lsGet(LS_AUTOOPEN, '0') === '1'; }
   function hostOf(u) { try { return new URL(u).hostname; } catch (e) { return ''; } }
@@ -88,7 +88,7 @@
 
     if (mode === 'direct') {
       frame.removeAttribute('src');
-      showFallback('Chế độ mở trực tiếp. Bấm “Mở máy” để vào máy Android.');
+      showFallback('Bấm “Mở máy”, đăng nhập ProxyDancu (lần đầu), rồi chạm vào hình máy để điều khiển. Nếu màn đen: bấm Refresh Stream, chờ ~1 phút rồi chạm vào màn hình.');
       return;
     }
     if (mode === 'auto' && isKnownBlocked(url) && !forceEmbedOnce) {
